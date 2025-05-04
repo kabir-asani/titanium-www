@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
-export async function middleware(request: NextRequest) {
+const middleware = async (request: NextRequest) => {
   const sessionCookie = getSessionCookie(request);
 
   if (!sessionCookie) {
@@ -9,8 +9,9 @@ export async function middleware(request: NextRequest) {
   }
 
   return NextResponse.next();
-}
+};
 
+export default middleware;
 export const config = {
-  matcher: ["/home"],
+  matcher: ["/home/:path*"],
 };
