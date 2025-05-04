@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { serverUrl } from "@/lib/extras/environment";
-import { headers } from "next/headers";
-import React from "react";
+import { forwardableHeaders } from "@/lib/extras/headers";
 import { z } from "zod";
 
 const top10PostsSchema = z
@@ -14,7 +13,7 @@ const top10PostsSchema = z
 const HomePage = async () => {
   const response = await fetch(`${serverUrl}/posts/latest-10`, {
     method: "GET",
-    headers: await headers(),
+    headers: await forwardableHeaders(),
   });
 
   const json = await response.json();
