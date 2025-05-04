@@ -17,7 +17,7 @@ const top10PostsSchema = z
 
 const HomePage = () => {
   const top10PostsQuery = useQuery({
-    queryKey: ["posts", "top-10"],
+    queryKey: ["posts", "latest-10"],
     queryFn: async () => {
       const response = await fetch(`${serverUrl}/posts/latest-10`, {
         method: "GET",
