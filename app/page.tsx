@@ -12,67 +12,79 @@ const RootPage = () => {
 
   if (data) {
     return (
+      <div className="h-svh w-full flex items-center justify-center">
+        <Card>
+          <CardHeader>
+            <CardTitle>{data.user.name}&apos;s Dashboard</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-row items-center gap-4">
+              <Button
+                variant="default"
+                onClick={() => {
+                  router.push("/home-server");
+                }}
+              >
+                View Home (Server)
+              </Button>
+              <Button
+                variant="default"
+                onClick={() => {
+                  router.push("/home-client");
+                }}
+              >
+                View Home (Client)
+              </Button>
+              <Button
+                variant="default"
+                onClick={() => {
+                  betterAuthClient.signOut();
+                }}
+              >
+                Log Out
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-svh w-full flex items-center justify-center">
       <Card>
         <CardHeader>
-          <CardTitle>{data.user.name}&apos;s Dashboard</CardTitle>
+          <CardTitle>Log In / Sign Up</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-row items-center gap-4">
             <Button
               variant="default"
               onClick={() => {
-                router.push("/home");
+                betterAuthClient.signIn.email({
+                  email: "kabir@gmail.com",
+                  password: "Hello@1234",
+                });
               }}
             >
-              View Posts
+              Log In
             </Button>
             <Button
-              variant="default"
+              variant="secondary"
               onClick={() => {
-                betterAuthClient.signOut();
+                betterAuthClient.signUp.email({
+                  name: "Kabir",
+                  email: "kabir@gmail.com",
+                  password: "Hello@1234",
+                });
               }}
             >
-              Log Out
+              Sign Up
             </Button>
           </div>
         </CardContent>
       </Card>
-    );
-  }
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Log In / Sign Up</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-row items-center gap-4">
-          <Button
-            variant="default"
-            onClick={() => {
-              betterAuthClient.signIn.email({
-                email: "kabir@gmail.com",
-                password: "Hello@1234",
-              });
-            }}
-          >
-            Log In
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              betterAuthClient.signUp.email({
-                name: "Kabir",
-                email: "kabir@gmail.com",
-                password: "Hello@1234",
-              });
-            }}
-          >
-            Sign Up
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+    </div>
   );
 };
 

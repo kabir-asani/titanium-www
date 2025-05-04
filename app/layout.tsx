@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Titanim",
+  title: "Titanium",
   description: "Ultra powerful metal that gives you a taste of God!",
 };
 

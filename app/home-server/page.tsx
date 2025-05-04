@@ -1,27 +1,20 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { serverUrl } from "@/lib/extras/environment";
 import { forwardableHeaders } from "@/lib/extras/headers";
-import { z } from "zod";
+import { latest10PostsSchema } from "@/lib/schemas";
 
-const top10PostsSchema = z
-  .object({
-    id: z.string(),
-    text: z.string(),
-  })
-  .array();
-
-const HomePage = async () => {
+const HomeServerPage = async () => {
   const response = await fetch(`${serverUrl}/posts/latest-10`, {
     method: "GET",
     headers: await forwardableHeaders(),
   });
 
   const json = await response.json();
-  const top10Posts = top10PostsSchema.parse(json);
+  const latest10Posts = latest10PostsSchema.parse(json);
 
   return (
     <div className="container mx-auto">
-      {top10Posts.length === 0 ? (
+      {latest10Posts.length === 0 ? (
         <div className="h-svh w-full flex items-center justify-center">
           <Card>
             <CardContent>Empty Posts!</CardContent>
@@ -29,7 +22,7 @@ const HomePage = async () => {
         </div>
       ) : (
         <div className="flex flex-col items-stretch gap-4">
-          {top10Posts.map((post) => {
+          {latest10Posts.map((post) => {
             return (
               <Card key={post.id}>
                 <CardContent>{post.text}</CardContent>
@@ -42,4 +35,4 @@ const HomePage = async () => {
   );
 };
 
-export default HomePage;
+export default HomeServerPage;

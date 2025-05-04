@@ -13,5 +13,5 @@ const middleware = (request: NextRequest) => {
 
 export default middleware;
 export const config = {
-  matcher: ["/home/:path*"],
+  matcher: ["/home-server/:path*", "/home-client/:path*", "/home/:path*"],
 };
