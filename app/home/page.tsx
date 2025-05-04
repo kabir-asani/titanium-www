@@ -1,6 +1,10 @@
+"use client";
+
 import { SessionGuard } from "@/components/session-guard";
 import { Card, CardContent } from "@/components/ui/card";
 import { serverUrl } from "@/lib/extras/environment";
+import { useQuery } from "@tanstack/react-query";
+import { LoaderIcon } from "lucide-react";
 import React from "react";
 import { z } from "zod";
 
@@ -11,36 +15,58 @@ const top10PostsSchema = z
   })
   .array();
 
-const HomePage = async () => {
-  const response = await fetch(`${serverUrl}/posts/latest-10`, {
-    method: "GET",
+const HomePage = () => {
+  const top10PostsQuery = useQuery({
+    queryKey: ["posts", "top-10"],
+    queryFn: async () => {
+      const response = await fetch(`${serverUrl}/posts/latest-10`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const json = await response.json();
+      const top10Posts = top10PostsSchema.parse(json);
+
+      return top10Posts;
+    },
   });
 
-  const json = await response.json();
-  const top10Posts = top10PostsSchema.parse(json);
+  if (top10PostsQuery.error) {
+    return <div className="h-svh w-full flex items-center justify-center">Something Went Wrong!</div>;
+  }
+
+  if (top10PostsQuery.data) {
+    const top10Posts = top10PostsQuery.data;
+
+    return (
+      <SessionGuard>
+        <div className="container mx-auto">
+          {top10Posts.length === 0 ? (
+            <div className="h-svh w-full flex items-center justify-center">
+              <Card>
+                <CardContent>Empty Posts!</CardContent>
+              </Card>
+            </div>
+          ) : (
+            <div className="flex flex-col items-stretch gap-4">
+              {top10Posts.map((post) => {
+                return (
+                  <Card key={post.id}>
+                    <CardContent>{post.text}</CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </SessionGuard>
+    );
+  }
 
   return (
-    <SessionGuard>
-      <div className="container mx-auto">
-        {top10Posts.length === 0 ? (
-          <div className="h-svh w-full flex items-center justify-center">
-            <Card>
-              <CardContent>Empty Posts!</CardContent>
-            </Card>
-          </div>
-        ) : (
-          <div className="flex flex-col items-stretch gap-4">
-            {top10Posts.map((post) => {
-              return (
-                <Card key={post.id}>
-                  <CardContent>{post.text}</CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    </SessionGuard>
+    <div className="h-svh w-full flex items-center justify-center">
+      <LoaderIcon className="size-16" />
+    </div>
   );
 };
 
