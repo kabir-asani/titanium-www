@@ -13,15 +13,8 @@ const top10PostsSchema = z
   .array();
 
 const HomePage = async () => {
-  const incomingHeaders = await headers();
-  console.log("incomingHeaders", incomingHeaders);
-
-  const forwardedHeaders = new Headers(await headers());
-  console.log("forwardedHeaders", forwardedHeaders);
-
   const response = await fetch(`${serverUrl}/posts/latest-10`, {
     method: "GET",
-    headers: { ...forwardedHeaders },
   });
 
   const json = await response.json();
