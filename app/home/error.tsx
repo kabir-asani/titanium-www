@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const error = ({ error }: { error: Error }) => {
+const HomeError = ({ error }: { error: Error }) => {
   useEffect(() => {
     console.error("Error /home", error);
   }, [error]);
@@ -10,4 +10,4 @@ const error = ({ error }: { error: Error }) => {
   return <div className="h-svh w-full flex items-center justify-center">Something Went Wrong!</div>;
 };
 
-export default error;
+export default HomeError;

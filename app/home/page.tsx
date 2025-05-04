@@ -1,7 +1,6 @@
 import { SessionGuard } from "@/components/session-guard";
 import { Card, CardContent } from "@/components/ui/card";
 import { serverUrl } from "@/lib/extras/environment";
-import { headers } from "next/headers";
 import React from "react";
 import { z } from "zod";
 
