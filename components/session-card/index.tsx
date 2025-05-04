@@ -14,7 +14,7 @@ export const SessionCard = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>{data.user.name}'s Dashboard</CardTitle>
+          <CardTitle>{data.user.name}&apos;s Dashboard</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-row items-center gap-4">
